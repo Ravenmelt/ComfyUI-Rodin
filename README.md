@@ -50,6 +50,12 @@ to your ComfyUI `custom_nodes` directory.
     - The rendering mode can be switched.
     - ![image](asset/RodinPreview.png)
 
+## Supporters
+
+- Some functions refer to the following projects:
+    - [ComfyUI-3D-Pack](https://github.com/MrForExample/ComfyUI-3D-Pack.git)
+    - [ComfyUI-Custom-Scripts](https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git)
+
 
 
 
