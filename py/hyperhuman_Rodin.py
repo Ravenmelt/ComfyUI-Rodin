@@ -215,7 +215,7 @@ def load_image(image_path):
 
 def handle_image(img):
     if not img:
-        return load_image('custom_nodes/ComfyUI-Rodin/asset/error.png')
+        return load_image(ROOT_PATH+'/asset/error.png')
     for i in ImageSequence.Iterator(img):
         i = node_helpers.pillow(ImageOps.exif_transpose, i)
 
@@ -243,7 +243,7 @@ def download_files(api_key, uuid):
     save_path = os.path.join(comfy_paths.get_output_directory(), datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
     os.makedirs(save_path, exist_ok=True)
     
-    shaded = diffuse = normal = pbr = load_image('custom_nodes/ComfyUI-Rodin/asset/error.png')
+    shaded = diffuse = normal = pbr = load_image(ROOT_PATH+'/asset/error.png')
     for file_info in files_info["list"]:
         filename = file_info["name"].split('/')[-1]
         file_path = os.path.join(save_path, filename)
@@ -350,7 +350,7 @@ class Rodin3D:
             return shaded, diffuse, normal, pbr, model_path, 
         else:
             logging.info(f"[ Rodin3D.process_request ] Error submitting the job:\n{response}")
-            shaded = diffuse = normal = pbr = load_image('custom_nodes/ComfyUI-Rodin/asset/error.png')
+            shaded = diffuse = normal = pbr = load_image(ROOT_PATH+'/asset/error.png')
             return shaded, diffuse, normal, pbr, ""
 
     def submit_poll_download(self, api_key, data, uuid, subscription_key):
@@ -368,11 +368,11 @@ class Rodin3D:
             if all([job["status"] == "Done" for job in status]):
                 logging.info(f"[ Rodin3D.process_request ] Generation complete. Downloading files...")
                 save_model_path = download_files(api_key, uuid)
-                print(f"[save model path] : {save_model_path}")
+                #print(f"[save model path] : {save_model_path}")
                 return save_model_path
             
             if any([job["status"] == "Failed" for job in status]):
-                shaded = diffuse = normal = pbr = load_image('custom_nodes/ComfyUI-Rodin/asset/error.png')
+                shaded = diffuse = normal = pbr = load_image(ROOT_PATH+'/asset/error.png')
                 return shaded, diffuse, normal, pbr, ""
 
             time.sleep(polling_interval)
