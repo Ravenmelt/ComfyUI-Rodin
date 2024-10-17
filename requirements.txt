@@ -1,15 +1,5 @@
-aiohttp
-huggingface_hub
-kiui
 numpy
-opencv_python
-opencv_python_headless
 Pillow
-Pillow
-pyhocon
 Requests
-scipy
-torch==2.0.1+cu117
-torchvision==0.15.2+cu117
-tqdm
+torch
 trimesh

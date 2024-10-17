@@ -1,25 +1,16 @@
 import requests
 import torch
 import os
-
 import trimesh.exchange
 import trimesh.exchange.gltf
 import folder_paths as comfy_paths
 import logging
 import time
-import urllib.request
 import datetime
 import shutil
-import glob
 import json
-import random
 import time
-import sys
-from tqdm import tqdm
-from server import PromptServer
-from aiohttp import web
-from PIL import Image, ImageOps, ImageSequence, ImageFile
-from PIL.PngImagePlugin import PngInfo
+from PIL import Image, ImageOps, ImageSequence
 import node_helpers
 import numpy as np
 import io
@@ -27,8 +18,6 @@ import comfy.utils
 import trimesh
 
 ROOT_PATH = os.path.join(comfy_paths.get_folder_paths("custom_nodes")[0], "ComfyUI-Rodin")
-CONFIG_ROOT_PATH = os.path.join(ROOT_PATH, "Configs")
-
 
 # Constants
 BASE_URL = "https://hyperhuman.deemos.com/api/v2"
