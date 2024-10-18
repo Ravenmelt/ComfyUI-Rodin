@@ -3,6 +3,8 @@ import glob
 import os
 import sys
 import folder_paths as comfy_paths
+from pyhocon import ConfigFactory
+from .webserver.server import server, set_web_conf
 
 
 NODE_CLASS_MAPPINGS = {}
@@ -11,6 +13,13 @@ NODE_DISPLAY_NAME_MAPPINGS = {}
 ROOT_PATH = os.path.join(comfy_paths.get_folder_paths("custom_nodes")[0], "ComfyUI-Rodin")
 sys.path.append(ROOT_PATH)
 
+conf_path = os.path.join(ROOT_PATH, "Configs/system.conf")
+f = open(conf_path)
+conf_text = f.read()
+f.close()
+sys_conf = ConfigFactory.parse_string(conf_text)
+
+set_web_conf(sys_conf['web'])
 
 
 py = os.path.join(ROOT_PATH,"py")
