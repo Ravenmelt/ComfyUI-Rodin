@@ -239,18 +239,44 @@ def download_files(api_key, uuid):
         if file_path.endswith(SUPPORTED_3D_EXTENSIONS):
             model_file_path = file_path
         print(f"[ download_files ] Downloading file: {file_path}")
-        with requests.get(file_info["url"], stream=True) as r:
-            with open(file_path, "wb") as f:
-                shutil.copyfileobj(r.raw, f)
-        with requests.get(file_info["url"], stream=True) as r:
-            if file_path.endswith('.glb'):
-                kwargs =  trimesh.exchange.gltf.load_glb(r.raw)
-                for key, value in kwargs['geometry'].items():
-                    material = value['visual'].material
-                    shaded = handle_image(material.emissiveTexture)
-                    diffuse = handle_image(material.baseColorTexture)
-                    normal = handle_image(material.normalTexture)
-                    pbr = handle_image(material.metallicRoughnessTexture)
+        max_retries = 5
+        for attempt in range(max_retries): #max_retries = 5
+            try:
+
+                with requests.get(file_info["url"], stream=True) as r:
+                    r.raise_for_status()
+                    with open(file_path, "wb") as f:
+                        shutil.copyfileobj(r.raw, f)
+                break
+            except Exception as e:
+                print(f"Error downloading {file_path}:{e}")
+                if attempt < max_retries - 1:
+                    print("Retrying...")
+                    time.sleep(2)
+                else:
+                    print(f"[ download_file_error ] Failed to download {file_path} after {max_retries} attempts.")
+
+        if file_path.endswith('.glb'):
+            for attempt in range(max_retries):
+                try:
+                    with requests.get(file_info["url"], stream=True) as r:
+                        r.raise_for_status()
+                        if file_path.endswith('.glb'):
+                            kwargs =  trimesh.exchange.gltf.load_glb(r.raw)
+                            for key, value in kwargs['geometry'].items():
+                                material = value['visual'].material
+                                shaded = handle_image(material.emissiveTexture)
+                                diffuse = handle_image(material.baseColorTexture)
+                                normal = handle_image(material.normalTexture)
+                                pbr = handle_image(material.metallicRoughnessTexture)
+                    break
+                except Exception as e:
+                    print(f"Error processing GLB file {file_path}: {e}")
+                    if attempt < max_retries - 1:
+                        print("Retrying...")
+                        time.sleep(2)
+                    else:
+                        print(f"[ download_file_error ] Failed to process {file_path} after {max_retries} attempts.")
         if filename == "shaded.png":
             shaded = load_image(file_path)
         elif filename == "texture_diffuse.png":
