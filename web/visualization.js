@@ -11,7 +11,7 @@ class Visualizer {
             overflow: "hidden",
         })
         if (visualSrc === 'threeVisualizer') {
-            // this.iframe.src = "//localhost:5173/extensions/ComfyUI-Rodin/threeVisualizer"
+            // this.iframe.src = "//localhost:5174/extensions/ComfyUI-Rodin/threeVisualizer"
             this.iframe.src = "/extensions/ComfyUI-Rodin/" + visualSrc + "/index.html"
         } else {
             this.iframe.src = "/extensions/ComfyUI-Rodin/html/" + visualSrc + ".html"
