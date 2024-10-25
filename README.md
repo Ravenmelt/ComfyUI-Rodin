@@ -10,6 +10,8 @@ Clone the repository:
 `git clone https://github.com/Ravenmelt/ComfyUI-Rodin.git`
 to your ComfyUI `custom_nodes` directory.
 
+2. **Can be installed from ComfyUI-Manager**
+
 ## Update
 
 1. Navigate to the cloned repo e.g. `custom_nodes/ComfyUI-Rodin`
